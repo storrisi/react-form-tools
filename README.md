@@ -1,7 +1,7 @@
 # react-form-tools
 A set of Tools for building Forms in React
 
-[<Form fields={[
+```<Form fields={[
     {
     type: 'text',
     name: 'user_name',
@@ -18,4 +18,4 @@ A set of Tools for building Forms in React
     required: true,
     label: 'Password',
     }
-]} />]
+]} />```
