@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
-import {View, Text, TextInput} from 'react-native';
+import TextInputField from './components/TextInputField';
 import PasswordField from './components/PasswordField';
-import RaisedButton from '../../components/Buttons/RaisedButton';
+import RaisedButton from './components/Buttons/RaisedButton';
 
 import { Attire } from 'react-attire'
 
@@ -26,7 +26,7 @@ export default class Form extends PureComponent {
       }
       switch(item.type) {
       case 'text':
-        return <TextInput {...defaultValues} />
+        return <TextInputField {...defaultValues} />
       case 'password':
         return <PasswordField {...defaultValues} showPasswordConfirm={false} />
       case 'passwordChange':
