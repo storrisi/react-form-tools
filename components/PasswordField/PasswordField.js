@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import {View, TextInput} from 'react-native';
 
 export default class PasswordField extends Component {
   constructor(props) {
@@ -9,21 +8,19 @@ export default class PasswordField extends Component {
   render() {
     const {placeholder, password,  showPasswordConfirm, passwordConfirm, onPwdChange, onPwdConfirmChange, pwdErrorText, pwdConfirmErrorText} = this.props;
 
-    return <View>
-      <TextInput 
-        secureTextEntry={true} 
+    return <section>
+      <input 
+        type="password"
         name="password"
         placeholder={placeholder}
         value={password}
-        onChange={onPwdChange}
-        errorText={pwdErrorText} />
-      {showPasswordConfirm ? <TextInput 
-        secureTextEntry={true} 
+        onChange={onPwdChange} />
+      {showPasswordConfirm ? <input 
+        type="password"
         name="passwordConfirm"
         placeholder={placeholder}
         value={passwordConfirm}
-        onChange={onPwdConfirmChange}
-        errorText={pwdConfirmErrorText} />: null}
-    </View>;
+        onChange={onPwdConfirmChange} />: null}
+    </section>;
   }
 }
