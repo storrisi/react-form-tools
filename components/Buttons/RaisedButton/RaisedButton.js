@@ -6,10 +6,10 @@ export default class RaisedButton extends Component {
   }
   
   render() {
-    const {label} = this.props;
+    const {label, onPress} = this.props;
 
     return <section>
-      <input type="button" value="Submit" />
+      <input type="button" value="Submit" onClick={onPress} />
     </section>;
   }
 }

@@ -25,22 +25,22 @@ export default class Form extends PureComponent {
         label: item.label
       }
       switch(item.type) {
-      case 'text':
-        return <TextInputField {...defaultValues} />
-      case 'password':
-        return <PasswordField {...defaultValues} showPasswordConfirm={false} />
-      case 'passwordChange':
-        return <PasswordField {...defaultValues} showPasswordConfirm={true} />
-      case 'submit':
-        return <RaisedButton key={item.name} title={item.label} onPress={() => this.props.onSubmit()} backgroundColor={'white'} />
-      default: return null;
-    }
+        case 'text':
+          return <TextInputField {...defaultValues} />
+        case 'password':
+          return <PasswordField {...defaultValues} showPasswordConfirm={false} />
+        case 'passwordChange':
+          return <PasswordField {...defaultValues} showPasswordConfirm={true} />
+        case 'submit':
+          return <RaisedButton key={item.name} title={item.label} onPress={this.props.onSubmit} backgroundColor={'white'} />
+        default: return null;
+      }
     })
   }
 
   render() {
       const {fields} = this.props;
-
+      
       return (
         <Attire>
             {(data, onChange) => this.renderFields(data, onChange)}
