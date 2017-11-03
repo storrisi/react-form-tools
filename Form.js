@@ -3,6 +3,7 @@ import React, {PureComponent} from 'react';
 import TextInputField from './components/TextInputField';
 import PasswordField from './components/PasswordField';
 import RaisedButton from './components/Buttons/RaisedButton';
+import ContainerField from './components/ContainerField';
 
 import { Attire } from 'react-attire'
 
@@ -15,9 +16,19 @@ export default class Form extends PureComponent {
     super(props);
   }
 
-  renderFields(data, onChange) {
-    
+  renderContainers(data, onChange) {
     return this.props.fields.map((item) =>{
+      let defaultValues = {
+        key: item.name,
+        style: item.style,
+        label: item.label
+      }
+      return <ContainerField {...defaultValues} renderFields={(data, onChange) => this.renderFields(item.fields, data, onChange)}/>
+    });
+  }
+
+  renderFields(fields, data, onChange) {    
+    return fields.map((item) =>{
       let defaultValues = {
         placeholder: item.placeholder,
         key: item.name,
@@ -43,7 +54,7 @@ export default class Form extends PureComponent {
       
       return (
         <Attire>
-            {(data, onChange) => this.renderFields(data, onChange)}
+            {(data, onChange) => this.renderContainers(data, onChange)}
         </Attire>
       )
   }
