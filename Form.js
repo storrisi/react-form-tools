@@ -43,7 +43,7 @@ export default class Form extends PureComponent {
 
       return (
         <Attire>
-            {(data, onChange) => this.renderFields(data, onChange)}
+            {(data, onChange) => this.renderFields(data, onChange)} aaa
         </Attire>
       )
   }
