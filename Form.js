@@ -4,16 +4,34 @@ import TextInputField from './components/TextInputField';
 import PasswordField from './components/PasswordField';
 import RaisedButton from './components/Buttons/RaisedButton';
 import ContainerField from './components/ContainerField';
+import FormToolsValidator from './validator';
 
-import { Attire } from 'react-attire'
+import { Attire, validate } from 'react-attire'
+
+const validateMyForm = validate({ email: v => v && v.length > 3 });
 
 export default class Form extends PureComponent {
   static propTypes = {
     fields: PropTypes.array,
+    validatorTypes: PropTypes.object,
     onSubmit: PropTypes.func
   }
   constructor(props) {
     super(props);
+
+    this.validator = new FormToolsValidator();
+  }
+
+  handleFormSubmit = (data) => {
+
+    validateMyForm(data)
+    .then(() => {
+        console.log('All good!')
+        this.props.onSubmit(data);
+    })
+    .catch(validationStatus => {
+        console.error('Validation error', validationStatus)
+    })
   }
 
   renderContainers(data, onChange) {
@@ -43,15 +61,20 @@ export default class Form extends PureComponent {
         label: item.label || '',
         className: item.className || ''
       }
+
       switch(item.type) {
+        case 'email':
         case 'text':
-          return <TextInputField {...defaultValues} />
+          return <section key={item.name}>
+            <TextInputField {...defaultValues}  />
+            {this.validator.message(item.name, data[item.name], this.props.validatorTypes[item.name])}
+          </section>
         case 'password':
           return <PasswordField {...defaultValues} showPasswordConfirm={false} />
         case 'passwordChange':
           return <PasswordField {...defaultValues} showPasswordConfirm={true} />
         case 'submit':
-          return <RaisedButton key={item.name} title={item.label} onPress={this.props.onSubmit} backgroundColor={'white'} />
+          return <RaisedButton key={item.name} title={item.label} onPress={() => this.handleFormSubmit(data)} backgroundColor={'white'} />
         default: return null;
       }
     })
