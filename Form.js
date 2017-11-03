@@ -18,10 +18,17 @@ export default class Form extends PureComponent {
 
   renderContainers(data, onChange) {
     return this.props.fields.map((item) =>{
+      if(item.direction) {
+        switch(item.direction) {
+          case 'row': item.style['flexDirection'] = 'row'; break;
+          case 'column': item.style['flexDirection'] = 'column'; break;
+        }  
+      }
       let defaultValues = {
         key: item.name,
-        style: item.style,
-        label: item.label
+        style: item.style || {},
+        label: item.label || '',
+        className: item.className || ''
       }
       return <ContainerField {...defaultValues} renderFields={(data, onChange) => this.renderFields(item.fields, data, onChange)}/>
     });
@@ -30,10 +37,11 @@ export default class Form extends PureComponent {
   renderFields(fields, data, onChange) {    
     return fields.map((item) =>{
       let defaultValues = {
-        placeholder: item.placeholder,
         key: item.name,
-        style: item.style,
-        label: item.label
+        style: item.style || {},
+        placeholder: item.placeholder || '',
+        label: item.label || '',
+        className: item.className || ''
       }
       switch(item.type) {
         case 'text':

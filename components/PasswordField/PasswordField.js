@@ -6,9 +6,9 @@ export default class PasswordField extends Component {
   }
 
   render() {
-    const {placeholder, password,  showPasswordConfirm, passwordConfirm, onPwdChange, onPwdConfirmChange, pwdErrorText, pwdConfirmErrorText} = this.props;
+    const {placeholder, password,  showPasswordConfirm, passwordConfirm, onPwdChange, onPwdConfirmChange, pwdErrorText, pwdConfirmErrorText, className} = this.props;
 
-    return <section>
+    return <section className={className}>
       <input 
         type="password"
         name="password"

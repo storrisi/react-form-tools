@@ -6,9 +6,9 @@ export default class RaisedButton extends Component {
   }
   
   render() {
-    const {label, onPress} = this.props;
+    const {label, className, onPress} = this.props;
 
-    return <section>
+    return <section className={className}>
       <input type="button" value="Submit" onClick={onPress} />
     </section>;
   }

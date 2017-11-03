@@ -8,10 +8,10 @@ export default class ContainerField extends Component {
     }
     
     render() {
-        const {label, style, renderFields} = this.props;
+        const {label, style, className, renderFields} = this.props;
         
         return (
-            <div style={style}>
+            <div style={style} className={className}>
                 <div>{label}</div>
                 <div>{renderFields()}</div>
             </div>
