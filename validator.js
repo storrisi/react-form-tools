@@ -1,4 +1,5 @@
 import React from 'react';
+import ValidatorRenderer from './components/ValidatorRenderer';
 
 export default class FormToolsValidator{
     constructor(customRules = {}){
@@ -115,7 +116,7 @@ export default class FormToolsValidator{
     }
   
     _reactErrorElement(message, customClass){
-      return React.createElement('div', {className: customClass || 'validation-message'}, message);
+      return <ValidatorRenderer className={customClass || 'validation-message'} message={message} />;
     }
   
     _testRegex(value, regex){
