@@ -45,11 +45,34 @@ A set of Tools for building Forms in React
         name: 'submit', //Obbligatorio
         placeholder:'submit', //Facoltativo
         label: 'submit', //Facoltativo
-        onSubmit: () => console.log('onSubmit')
       }
     ]
   } 
-]} />
+]}
+
+onSubmit = {() => console.log('onSubmit')}
+          
+validatorTypes={{
+  name: 'required',
+  email: 'required|email',
+  age: 'min:18'
+}}
+
+validatorMessages={{
+  name: {
+    required: 'campo obbligatorio'
+  },
+  email: {
+    required: 'campo obbligatorio',
+    email: 'errore di validazione email'
+  },
+  age: {
+    required: 'campo obbligatorio',
+    min: 'errore di validazione min'
+  }
+}}
+
+ />
 ```
 
 ## About
