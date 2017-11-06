@@ -2,77 +2,80 @@
 A set of Tools for building Forms in React
 
 ```
-<Form fields={[
-  {
-    type: 'container', //Obbligatorio
-    name: 'container-1', //Facoltativo
-    label: 'Contenitore campi', //Facoltativo
-    style: {display:'flex'}, //Facoltativo
-    className: '', //Facoltativo
-    direction: 'row', //Facoltativo
-    fields: [
-      {
-        type: 'text', //Obbligatorio
-        name: 'user_name', //Obbligatorio
-        placeholder:'Username', //Facoltativo
-        required: true,
-        icon: 'ios-person', //Facoltativo
-        label: 'Username', //Facoltativo
-        style: {}, //Facoltativo
-        className: '' //Facoltativo
-      },
-      {
-        type: 'passwordChange', //Obbligatorio
-        name: 'password', //Obbligatorio
-        placeholder:'Password', //Facoltativo
-        icon: 'ios-lock', //Facoltativo
-        required: true,
-        label: 'Password', //Facoltativo
-        style: {} //Facoltativo
-      }
-    ]
-  },
-  {
-    type: 'container', //Obbligatorio
-    name: 'container-2', //Obbligatorio
-    label: 'Contenitore Bottoni', //Facoltativo
-    style: {display:'flex'}, //Facoltativo
-    className: '', //Facoltativo
-    direction: 'row', //Facoltativo
-    fields: [
-      {
-        type: 'submit', //Obbligatorio
-        name: 'submit', //Obbligatorio
-        placeholder:'submit', //Facoltativo
-        label: 'submit', //Facoltativo
-      }
-    ]
-  } 
-]}
+<Form
+  textInputRenderer = {<input type="text" />}
+  buttonRenderer = {<input type="submit" />}
+  fieldRenderer = {<div style={{marginTop:'10px'}} />}
+  containerRenderer = {<div style={{marginTop:'10px'}} />}
+  validatorRenderer = {<div />}
+  fields={[
+    {
+      type: 'container', //Obbligatorio
+      name: 'container-1', //Facoltativo
+      style: {display:'flex', flexDirection:'column'}, //Facoltativo
+      className: '', //Facoltativo
+      direction: 'row', //Facoltativo
+      fields: [
+        {
+          type: 'text', //Obbligatorio
+          name: 'email', //Obbligatorio
+          placeholder:'Username', //Facoltativo
+          required: true,
+          icon: 'ios-person', //Facoltativo
+          label: 'Username', //Facoltativo
+          style: {}, //Facoltativo
+          className: '' //Facoltativo
+        },
+        {
+          type: 'passwordChange', //Obbligatorio
+          name: 'password', //Obbligatorio
+          placeholder:'Password', //Facoltativo
+          icon: 'ios-lock', //Facoltativo
+          required: true,
+          label: 'Password', //Facoltativo
+          style: {} //Facoltativo
+        }
+      ]
+    },
+    {
+      type: 'container', //Obbligatorio
+      name: 'container-2', //Obbligatorio
+      style: {display:'flex'}, //Facoltativo
+      className: '', //Facoltativo
+      direction: 'row', //Facoltativo
+      fields: [
+        {
+          type: 'submit', //Obbligatorio
+          name: 'submit', //Obbligatorio
+          placeholder:'submit', //Facoltativo
+          label: 'submit', //Facoltativo
+        }
+      ]
+    } 
+  ]}
 
-onSubmit = {() => console.log('onSubmit')}
-          
-validatorTypes={{
-  name: 'required',
-  email: 'required|email',
-  age: 'min:18'
-}}
+  onSubmit = {() => console.log('onSubmit')}
+    
+  validatorTypes={{
+    name: 'required',
+    email: 'required|email',
+    age: 'min:18'
+  }}
 
-validatorMessages={{
-  name: {
-    required: 'campo obbligatorio'
-  },
-  email: {
-    required: 'campo obbligatorio',
-    email: 'errore di validazione email'
-  },
-  age: {
-    required: 'campo obbligatorio',
-    min: 'errore di validazione min'
-  }
-}}
-
- />
+  validatorMessages={{
+    name: {
+      required: 'campo obbligatorio'
+    },
+    email: {
+      required: 'campo obbligatorio',
+      email: 'errore di validazione email'
+    },
+    age: {
+      required: 'campo obbligatorio',
+      min: 'errore di validazione min'
+    }
+  }}
+/>
 ```
 
 ## About
