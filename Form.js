@@ -1,10 +1,6 @@
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
-import TextInputField from './components/TextInputField';
 import PasswordField from './components/PasswordField';
-import RaisedButton from './components/Buttons/RaisedButton';
-import FormContainer from './components/Containers/FormContainer';
-import FieldContainer from './components/Containers/FieldContainer';
 import FormToolsValidator from './validator';
 
 import { Attire, validate } from 'react-attire'
@@ -51,7 +47,7 @@ export default class Form extends PureComponent {
         className: item.className || ''
       }
       
-      return <FormContainer {...defaultValues} renderFields={() => this.renderFields(item.fields, data, onChange)}/>
+      return React.cloneElement(this.props.containerRenderer, {...defaultValues}, this.renderFields(item.fields, data, onChange));
     });
   }
 
@@ -76,9 +72,10 @@ export default class Form extends PureComponent {
       switch(item.type) {
         case 'email':
         case 'text':
-            validatorRenderer = this.validator.message(item.name, data[item.name], this.props.validatorTypes[item.name]);
-            itemRenderer = <TextInputField {...defaultValues}  />;
-            break;
+          const textProps = {...defaultValues};
+          validatorRenderer = this.validator.message(item.name, data[item.name], this.props.validatorTypes[item.name]);
+          this.props.textInputRenderer ? itemRenderer = React.cloneElement(this.props.textInputRenderer, textProps) :  itemRenderer = React.cloneElement(<input type="text" />, textProps); 
+          break;
         case 'password':
             itemRenderer = <PasswordField {...defaultValues} showPasswordConfirm={false} />;
             break;
@@ -86,21 +83,18 @@ export default class Form extends PureComponent {
             itemRenderer = <PasswordField {...defaultValues} showPasswordConfirm={true} />;
             break;
         case 'submit':
-          return <RaisedButton key={item.name} title={item.label} onPress={() => this.handleFormSubmit(data)} backgroundColor={'white'} />
-          break;
+          //RENDER DIRECTLY A BUTTON
+          const buttonProps = {...defaultValues, value: item.label || '', onClick: () => this.handleFormSubmit(data)};
+          return this.props.buttonRenderer ? itemRenderer = React.cloneElement(this.props.buttonRenderer, buttonProps) :  itemRenderer = React.cloneElement(<input type="submit" />, buttonProps);
         default: return null;
       }
 
-      return <FieldContainer 
-      key={item.name}
-      validatorRenderer={validatorRenderer}
-      itemRenderer={itemRenderer} />
+      //RETURN A DEFAULT FIELD CONTAINER WITH A COMPONENT CONTENT RENDERER
+      return this.props.fieldRenderer ? React.cloneElement(this.props.fieldRenderer, {key: item.name}, [itemRenderer, validatorRenderer]) : React.cloneElement(<section />, {key: item.name}, [itemRenderer, validatorRenderer]);
     })
   }
 
   render() {
-      const {fields} = this.props;
-      
       return (
         <Attire>
             {(data, onChange) => this.renderContainers(data, onChange)}

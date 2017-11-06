@@ -1,14 +1,16 @@
-import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import React from 'react';
 
-export default class PasswordField extends Component {
-  constructor(props) {
-    super(props);
-  }
-
-  render() {
-    const {placeholder, name,  onChange, className, showPasswordConfirm} = this.props;
-
-    return <section className={className}>
+export default function PasswordField({
+  name,
+  style = {},
+  className = '',
+  placeholder = '',
+  onChange = f => f,
+  showPasswordConfirm
+}) {
+  return (
+    <section style={style} className={className}>
       <input 
         type="password"
         name={name}
@@ -19,6 +21,17 @@ export default class PasswordField extends Component {
         name={name+"Confirm"}
         placeholder={placeholder}
         onChange={onChange} />: null}
-    </section>;
-  }
+    </section>
+  );
 }
+
+PasswordField.propTypes = {
+  style: PropTypes.object,
+  placeholder: PropTypes.string,
+  name: PropTypes.string,
+  className: PropTypes.string,
+  onChange: PropTypes.func,
+  showPasswordConfirm: PropTypes.bool
+}
+
+

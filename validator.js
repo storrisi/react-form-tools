@@ -1,11 +1,11 @@
 import React from 'react';
-import ValidatorRenderer from './components/ValidatorRenderer';
 
 export default class FormToolsValidator{
     constructor(customRules = {}){
       this.fields = {};
       this.errorMessages = {};
       this.messagesShown = false;
+      this.renderer = <div />;
       this.rules = {
         accepted       : {message: 'The :attribute must be accepted.',                              rule: (val) => val === true },
         alpha          : {message: 'The :attribute may only contain letters.',                      rule: (val) => this._testRegex(val,/^[A-Z]*$/i) },
@@ -65,11 +65,12 @@ export default class FormToolsValidator{
       }
     }
   
-    message(field, value, testString, customClass, customErrors = {}){
+    message(field, value, testString, renderer, customClass, customErrors = {}){
       this.errorMessages[field] = null;
       this.fields[field] = true;
       var tests = testString.split('|');
       var rule, options, message;
+      if (renderer) this.renderer = renderer;
       for(var i = 0; i < tests.length; i++){
         // if the validation does not pass the test
         value = this._valueOrEmptyString(value);
@@ -85,10 +86,8 @@ export default class FormToolsValidator{
   
             this.errorMessages[field] = message;
             if(this.rules[rule].hasOwnProperty('messageReplace')){
-                console.log('messageReplace');
               return this._reactErrorElement(this.rules[rule].messageReplace(message, options));
             } else {
-                console.log('message');
               return this._reactErrorElement(message, customClass);
             }
           }
@@ -116,7 +115,7 @@ export default class FormToolsValidator{
     }
   
     _reactErrorElement(message, customClass){
-      return <ValidatorRenderer className={customClass || 'validation-message'} message={message} />;
+      return React.cloneElement(this.renderer, {key:'validator', className: customClass || 'validation-message'}, [message] );
     }
   
     _testRegex(value, regex){
