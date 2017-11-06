@@ -34,15 +34,16 @@ export default class Form extends PureComponent {
   renderContainers(data, onChange) {
     console.log(data);
     return this.props.fields.map((item) =>{
-      /*if(item.direction) {
+      const styles = item.style || {};
+      if(item.direction) {
         switch(item.direction) {
-          case 'row': item.style['flexDirection'] = 'row'; break;
-          case 'column': item.style['flexDirection'] = 'column'; break;
+          case 'row': styles['flexDirection'] = 'row'; break;
+          case 'column': styles['flexDirection'] = 'column'; break;
         }  
-      }*/
+      }
       let defaultValues = {
         key: item.name,
-        style: item.style || {},
+        style: styles || {},
         label: item.label || '',
         className: item.className || ''
       }
