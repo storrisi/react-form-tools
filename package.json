@@ -1,5 +1,5 @@
 {
-  "name": "react-form-tools",
+  "name": "react-form-renderer",
   "version": "0.1.0",
   "description": "A simple React and React-Native form builder",
   "main": "src/index.js",

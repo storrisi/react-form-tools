@@ -1,70 +1,63 @@
-# react-form-tools
-A set of Tools for building Forms in React
+# React Form Renderer
 
+A simple and fast library to build Forms starting from a json schema.
+You can use the built-in renderer of each element, or passing the UI-Kit of your own.
+
+The library has also a validator system based on [simple-react-validator](https://github.com/dockwa/simple-react-validator/) 
+# Install and Save
+
+```shell
+npm install react-form-renderer --save
+```
+
+# Using Example
 ```
 <Form
   textInputRenderer = {<input type="text" />}
   buttonRenderer = {<input type="submit" />}
-  fieldRenderer = {<div style={{marginTop:'10px', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}} />}
-  containerRenderer = {<div style={{marginTop:'10px'}} />}
-  validatorRenderer = {<div />}
+  fieldRenderer = {<div style={} />}
+  containerRenderer = {<div style={} />}
+  validatorRenderer = {<div style={} />}
   fields={[
     {
-      type: 'container', //Obbligatorio
-      name: 'container-1', //Facoltativo
-      style: {display:'flex', flexDirection:'column'}, //Facoltativo
-      className: '', //Facoltativo
+      type: 'container', //Required
+      name: 'container-1', //Optional
+      style: {}, //Optional
+      className: '', //Optional
       fields: [
         {
-            type: 'container', //Obbligatorio
-            name: 'container-1', //Facoltativo
-            style: {display:'flex', flexDirection:'column'}, //Facoltativo
-            className: '', //Facoltativo
+            type: 'container', //Required
+            name: 'container-1', //Optional
+            style: {}, //Optional
+            className: '', //Optional
             fields: [
                 {
-                    type: 'text', //Obbligatorio
-                    name: 'email', //Obbligatorio
-                    placeholder:'Username', //Facoltativo
-                    required: true,
-                    icon: 'ios-person', //Facoltativo
-                    label: 'Username', //Facoltativo
-                    style: {}, //Facoltativo
-                    className: '' //Facoltativo
+                    type: 'text', //Required
+                    name: 'username', //Required
+                    placeholder:'Username', //Optional
+                    style: {}, //Optional
+                    className: '' //Optional
                 },
                 {
-                    type: 'passwordChange', //Obbligatorio
-                    name: 'password', //Obbligatorio
-                    placeholder:'Password', //Facoltativo
-                    icon: 'ios-lock', //Facoltativo
-                    required: true,
-                    label: 'Password', //Facoltativo
-                    style: {} //Facoltativo
+                    type: 'password', //Required
+                    name: 'password', //Required
+                    placeholder:'Password', //Optional
+                    style: {} //Optional
                 }
             ]
-        },
-        {
-          type: 'passwordChange', //Obbligatorio
-          name: 'password', //Obbligatorio
-          placeholder:'Password', //Facoltativo
-          icon: 'ios-lock', //Facoltativo
-          required: true,
-          label: 'Password', //Facoltativo
-          style: {} //Facoltativo
         }
       ]
     },
     {
-      type: 'container', //Obbligatorio
-      name: 'container-2', //Obbligatorio
-      style: {display:'flex', flexDirection:'column'}, //Facoltativo
-      className: '', //Facoltativo
-      direction: 'row', //Facoltativo
+      type: 'container', //Required
+      name: 'container-2', //Required
+      style: {}, //Optional
+      className: '', //Optional
       fields: [
         {
-          type: 'submit', //Obbligatorio
-          name: 'submit', //Obbligatorio
-          placeholder:'submit', //Facoltativo
-          label: 'submit', //Facoltativo
+          type: 'submit', //Required
+          name: 'submit', //Required
+          placeholder:'Login', //Optional
         }
       ]
     } 
@@ -73,122 +66,43 @@ A set of Tools for building Forms in React
   onSubmit = {() => console.log('onSubmit')}
     
   validatorTypes={{
-    name: 'required',
-    email: 'required|email',
-    age: 'min:18'
+    username: 'required',
+    password: 'required|password'
   }}
 
   validatorMessages={{
-    name: {
-      required: 'campo obbligatorio'
+    username: {
+      required: 'This is a custom message for mandatory fields'
     },
-    email: {
-      required: 'campo obbligatorio',
-      email: 'errore di validazione email'
-    },
-    age: {
-      required: 'campo obbligatorio',
-      min: 'errore di validazione min'
+    password: {
+      required: 'This is a custom message for mandatory fields',
+      password: 'This is a custom message for wrong validation error'
     }
   }}
+/>
 ```
 
-## About
-Simple React Validator is exactly as it sounds. We wanted to build a validator for react that had minimal configuration and felt natural to use. It's configuration and usage is similar to the Laravel PHP framework and make validation as easy as one line.
+#Item Renderers
+You can define a custom renderer for each single component, instead of using the default renderers.
 
-## Usage
-Open the `example/index.html` file for more usage examples of the library or check out the example [Code Pen](https://codepen.io/stuyam/project/full/XxxwML)
+Here is the list of the customizable components:
 
-**npm**
-```
-npm install simple-react-validator --save
-```
+| Component        | Options      | Description                                              |
+|------------------|--------------|----------------------------------------------------------|
+|textInputRenderer |              | Used for rendering simple Text Fields                    |
+|passwordRenderer  |              | Used for rendering a Password Field.                     |
+|buttonRenderer    |              | Used for rendering a simple Button                       |
+|containerRenderer |              | This renderer is used for styling purposes. If you need to put two or more fields on the same row, you can wrap into the same Container Renderer and give it the appropriate style or classname                       |
+|fieldRenderer     |              | As for the Container Renderer, specially if you have to show a field and a validator string togheter, with this renderer you can apply your own style.                |
+|validatorRenderer |              | Used for rendering the validator error message           |
 
-**bower**
-```
-bower install simple-react-validator --save
-```
 
-#### 3 Easy Steps
-1. Initialize the validator.
+## Validation Rules
+This is the list of all the rules you can validate form inputs against. 
+When using multiple rules, separate them with a pipe `|`. 
+When adding options, append a colon to the rule and separate options with commas. 
 
-es5
-```javascript
-componentWillMount: function() {
-  this.validator = new SimpleReactValidator();
-},
-```
-es6
-```javascript
-constructor() {
-  this.validator = new SimpleReactValidator();
-}
-```
-
-2. Add validation rules under inputs. The `message` method accepts 5 arguments:
-- **Field Name**: A unique underscored string that gets replaced in the messaging as the name of the field.
-- **Value**: Usually the state of the current field.
-- **Rules String**: A pipe separated list of rules to apply to the string.
-- **Optional Class Name**: The class applied to the div that wraps the message, default is 'validation-message'.
-- **Optional Custom Error Messages**: Will override the normal error messages.
-
-```jsx
-render: function() {
-  return (
-    <div className="container">
-      <h1>Write a Review</h1>
-      <div className="form-group">
-        <label>Title</label>
-        <input className="form-control" value={this.state.title} onChange={this.setTitle} />
-
-        {/**********   This is where the magic happens     ***********/}
-        {this.validator.message('title', this.state.title, 'required|alpha')}
-
-      </div>
-      <div className="form-group">
-        <label>Email</label>
-        <input className="form-control" value={this.state.email} onChange={this.setEmail} />
-
-        {/**********   This is where the magic happens     ***********/}
-        {this.validator.message('email', this.state.email, 'required|email', 'text-danger')}
-
-      </div>
-      <div className="form-group">
-        <label>Review</label>
-        <textarea className="form-control" value={this.state.review} onChange={this.setReview} />
-
-        {/**********   This is where the magic happens     ***********/}
-        {this.validator.message('review', this.state.review, 'required|min:20|max:120', false, {min: 'Custom min error'})}
-
-      </div>
-      <button className="btn btn-primary" onClick={this.submitForm}>Save Review</button>
-    </div>
-  );
-},
-```
-
-3. Check if the validation passes when submitting and turn on messaging if it fails. Once messaging is turned on, validation messages will change and update as the user types.
-```javascript
-submitForm: function() {
-  if( this.validator.allValid() ){
-    alert('You submitted the form and stuff!');
-  } else {
-    this.validator.showMessages();
-    // rerender to show messages for the first time
-    this.forceUpdate();
-  }
-},
-```
-
-There is another method you can use to check if a single field is valid or not.
-```javascript
-if( this.validator.fieldValid('email') ){
-  // booya this field is valid!
-}
-```
-
-## Rules
-This is the list of all the rules you can validate form inputs against. When using multiple rules, separate them with a pipe `|`. When adding options, append a colon to the rule and separate options with commas. Examples: `'required|min:20|max:120'` and `'required|in:stu,stuart,stuyam'`
+Examples: `'required|min:20|max:120'` and `'required|in:stu,stuart,stuyam'`
 
 | Rules        | Options      | Description                                              |
 |--------------|--------------|----------------------------------------------------------|
@@ -213,57 +127,9 @@ This is the list of all the rules you can validate form inputs against. When usi
 |url           |              | Must be a valid url.                                     |
 
 ## Custom Rules
-You can write custom rules that you can use the validate. A rule is comprised of 3 parts; the name, the message, and the rule itself. Here is an example of adding a custom rule on initialize of the validator.
+You can write custom rules that you can use the validate. A rule is comprised of 3 parts; the name, the message, and the rule itself.
 
-Example:
-
-```javascript
-constructor() {
-  this.validator = new SimpleReactValidator({
-    ip: { //name the rule
-      message: 'The :attribute must be a valid IP address.', //give a message that will display when there is an error. :attribute will be replaced by the name you supply in calling it.
-      rule: function(val, options)){ //return true if it is succeeds and false it if fails validation. the _testRegex method is available to give back a true/false for the regex and given value
-        // check that it is a valid IP address and is not blacklisted
-        this._testRegex(val,/^(?!0)(?!.*\.$)((1?\d?\d|25[0-5]|2[0-4]\d)(\.|$)){4}$/i) && options.indexOf(val) === -1
-      }
-    }
-  });
-}
-```
-
-Usage:
-
-```jsx
-render: function() {
-  return (
-    <div className="container">
-      <h1>Give Me Your IP</h1>
-      <div className="form-group">
-        <label>IP Address</label>
-        <input className="form-control" value={this.state.ip} onChange={this.setIP} />
-        {/*   This is where the magic happens     */}
-        {this.validator.message('ip_address', this.state.ip, 'required|ip:127.0.0.1')}
-      </div>
-      ...
-    </div>
-  );
-},
-```
 
 ## Custom Error Messages
 The fifth parameter is an object. The keys correspond to the rule names.
 If you use the key 'default' then that will be used for all errors that do not have custom errors set.
-
-```jsx
-<div className="form-group">
-  <label>Amount</label>
-  <textarea className="form-control" value={this.state.amount} onChange={this.setAmount} />
-  {this.validator.message(
-    'amount',
-    this.state.amount,
-    'required|min:20|max:120',
-    false,
-    {min: 'Custom min error', default: 'Invalid.'}
-  )}
-</div>
-```
