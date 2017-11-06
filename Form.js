@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
-import PasswordField from './components/PasswordField';
 import FormToolsValidator from './validator';
 
 import { Attire, validate } from 'react-attire'
@@ -34,16 +33,9 @@ export default class Form extends PureComponent {
   renderContainers(data, onChange) {
     console.log(data);
     return this.props.fields.map((item) =>{
-      const styles = item.style || {};
-      if(item.direction) {
-        switch(item.direction) {
-          case 'row': styles['flexDirection'] = 'row'; break;
-          case 'column': styles['flexDirection'] = 'column'; break;
-        }  
-      }
       let defaultValues = {
         key: item.name,
-        style: styles || {},
+        style: item.style || {},
         label: item.label || '',
         className: item.className || ''
       }
@@ -75,13 +67,16 @@ export default class Form extends PureComponent {
         case 'text':
           const textProps = {...defaultValues};
           validatorRenderer = this.validator.message(item.name, data[item.name], this.props.validatorTypes[item.name]);
-          this.props.textInputRenderer ? itemRenderer = React.cloneElement(this.props.textInputRenderer, textProps) :  itemRenderer = React.cloneElement(<input type="text" />, textProps); 
+          this.props.textInputRenderer ? itemRenderer = React.cloneElement(this.props.textInputRenderer, textProps) : itemRenderer = React.cloneElement(<input type="text" />, textProps); 
           break;
         case 'password':
-            itemRenderer = <PasswordField {...defaultValues} showPasswordConfirm={false} />;
+            const passwordProps = {...defaultValues};
+            this.props.passwordRenderer ? itemRenderer = React.cloneElement(this.props.fieldRenderer, {key: item.name}, React.cloneElement(this.props.passwordRenderer, passwordProps)) : itemRenderer = React.cloneElement(<section />, {key: item.name}, React.cloneElement(<input type="password" />, passwordProps))
             break;
         case 'passwordChange':
-            itemRenderer = <PasswordField {...defaultValues} showPasswordConfirm={true} />;
+            const passwordChangeProps = {...defaultValues};
+            const passwordConfirmProps = {...defaultValues, name:item.name+'_confirm', key: item.name+'_confirm'};
+            this.props.passwordRenderer ? itemRenderer = React.cloneElement(this.props.fieldRenderer, {key: item.name}, [React.cloneElement(this.props.passwordChangeProps, passwordProps, React.cloneElement(this.props.passwordChangeProps, passwordProps))]) : itemRenderer = React.cloneElement(this.props.fieldRenderer, {key: item.name}, [React.cloneElement(<input type="password" />, passwordChangeProps), React.cloneElement(<input type="password" />, passwordConfirmProps)]);
             break;
         case 'submit':
           //RENDER DIRECTLY A BUTTON
