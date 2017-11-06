@@ -5,7 +5,7 @@ A set of Tools for building Forms in React
 <Form
   textInputRenderer = {<input type="text" />}
   buttonRenderer = {<input type="submit" />}
-  fieldRenderer = {<div style={{marginTop:'10px'}} />}
+  fieldRenderer = {<div style={{marginTop:'10px', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}} />}
   containerRenderer = {<div style={{marginTop:'10px'}} />}
   validatorRenderer = {<div />}
   fields={[
@@ -14,7 +14,6 @@ A set of Tools for building Forms in React
       name: 'container-1', //Facoltativo
       style: {display:'flex', flexDirection:'column'}, //Facoltativo
       className: '', //Facoltativo
-      direction: 'row', //Facoltativo
       fields: [
         {
           type: 'text', //Obbligatorio
@@ -40,7 +39,7 @@ A set of Tools for building Forms in React
     {
       type: 'container', //Obbligatorio
       name: 'container-2', //Obbligatorio
-      style: {display:'flex'}, //Facoltativo
+      style: {display:'flex', flexDirection:'column'}, //Facoltativo
       className: '', //Facoltativo
       direction: 'row', //Facoltativo
       fields: [
@@ -75,7 +74,6 @@ A set of Tools for building Forms in React
       min: 'errore di validazione min'
     }
   }}
-/>
 ```
 
 ## About
