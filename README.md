@@ -3,6 +3,7 @@ A set of Tools for building Forms in React
 
 ```
 <Form
+<<<<<<< HEAD
   textInputRenderer = {<input type="text" />}
   buttonRenderer = {<input type="submit" />}
   fieldRenderer = {<div style={{marginTop:'10px', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center'}} />}
@@ -15,17 +16,43 @@ A set of Tools for building Forms in React
       style: {display:'flex', flexDirection:'column'}, //Facoltativo
       className: '', //Facoltativo
       fields: [
+=======
+    textInputRenderer = {<input type="text" />}
+    buttonRenderer = {<input type="submit" />}
+    fieldRenderer = {<div style={{marginTop:'10px'}} />}
+    containerRenderer = {<div style={{marginTop:'10px'}} />}
+    validatorRenderer = {<div />}
+    fields={[
+>>>>>>> master
         {
-          type: 'text', //Obbligatorio
-          name: 'email', //Obbligatorio
-          placeholder:'Username', //Facoltativo
-          required: true,
-          icon: 'ios-person', //Facoltativo
-          label: 'Username', //Facoltativo
-          style: {}, //Facoltativo
-          className: '' //Facoltativo
+            type: 'container', //Obbligatorio
+            name: 'container-1', //Facoltativo
+            style: {display:'flex', flexDirection:'column'}, //Facoltativo
+            className: '', //Facoltativo
+            fields: [
+                {
+                    type: 'text', //Obbligatorio
+                    name: 'email', //Obbligatorio
+                    placeholder:'Username', //Facoltativo
+                    required: true,
+                    icon: 'ios-person', //Facoltativo
+                    label: 'Username', //Facoltativo
+                    style: {}, //Facoltativo
+                    className: '' //Facoltativo
+                },
+                {
+                    type: 'passwordChange', //Obbligatorio
+                    name: 'password', //Obbligatorio
+                    placeholder:'Password', //Facoltativo
+                    icon: 'ios-lock', //Facoltativo
+                    required: true,
+                    label: 'Password', //Facoltativo
+                    style: {} //Facoltativo
+                }
+            ]
         },
         {
+<<<<<<< HEAD
           type: 'passwordChange', //Obbligatorio
           name: 'password', //Obbligatorio
           placeholder:'Password', //Facoltativo
@@ -74,6 +101,44 @@ A set of Tools for building Forms in React
       min: 'errore di validazione min'
     }
   }}
+=======
+            type: 'container', //Obbligatorio
+            name: 'container-2', //Obbligatorio
+            style: {display:'flex'}, //Facoltativo
+            className: '', //Facoltativo
+            fields: [
+            {
+                type: 'submit', //Obbligatorio
+                name: 'submit', //Obbligatorio
+                placeholder:'submit', //Facoltativo
+                label: 'submit', //Facoltativo
+            }
+            ]
+        } 
+    ]}
+    onSubmit = {() => console.log('onSubmit')}
+                        
+    validatorTypes={{
+        name: 'required',
+        email: 'required|email',
+        age: 'min:18'
+    }}
+
+    validatorMessages={{
+        name: {
+            required: 'campo obbligatorio'
+            },
+            email: {
+                required: 'campo obbligatorio',
+                email: 'errore di validazione email'
+            },
+            age: {
+                required: 'campo obbligatorio',
+                min: 'errore di validazione min'
+            }
+    }}
+/>
+>>>>>>> master
 ```
 
 ## About
