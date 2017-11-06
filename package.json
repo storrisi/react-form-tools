@@ -1,0 +1,28 @@
+{
+  "name": "react-form-tools",
+  "version": "0.1.0",
+  "description": "A simple React and React-Native form builder",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/storrisi/react-form-tools.git"
+  },
+  "keywords": [
+    "react",
+    "react-native",
+    "form",
+    "builder"
+  ],
+  "author": "Simone Torrisi & Nikolas Mosca",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/storrisi/react-form-tools/issues"
+  },
+  "homepage": "https://github.com/storrisi/react-form-tools#readme",
+  "dependencies": {
+    "react-attire": "^0.1.2"
+  }
+}
