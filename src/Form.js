@@ -6,9 +6,7 @@ import { Attire, validate } from 'react-attire'
 
 const validateMyForm = validate({ email: v => v && v.length > 3 });
 
-class Form extends PureComponent({
-  defaultFieldRender: <section />
-}) {
+class Form extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -35,10 +33,8 @@ class Form extends PureComponent({
         label: item.label || '',
         className: item.className || ''
       }
-      let containerRenderer;
-      if (this.props.containerRenderer) containerRenderer = this.props.containerRenderer;
-      containerRenderer = <div />;
-      return React.cloneElement(containerRenderer, {...defaultValues}, this.renderFields(item.fields, data, onChange));
+
+      return React.cloneElement(this.props.containerRenderer, {...defaultValues}, this.renderFields(item.fields, data, onChange));
     });
   }
 
@@ -64,38 +60,26 @@ class Form extends PureComponent({
         case 'email':
         case 'text':
           const textProps = {...defaultValues};
-          this.props.textInputRenderer ? 
-            itemRenderer = React.cloneElement(this.props.textInputRenderer, textProps) : 
-            itemRenderer = React.cloneElement(<input type="text" />, textProps); 
+          itemRenderer = React.cloneElement(this.props.textInputRenderer, textProps);
         break;
         case 'password':
           const passwordProps = {...defaultValues};
-          this.props.passwordRenderer ? 
-            itemRenderer = React.cloneElement(this.props.passwordRenderer, passwordProps) : 
-            itemRenderer = React.cloneElement(<input type="password" />, passwordProps);
+          itemRenderer = React.cloneElement(this.props.passwordRenderer, passwordProps);
         break;
         case 'passwordChange':
           const passwordChangeProps = {...defaultValues};
           const passwordConfirmProps = {...defaultValues, placeholder:'Password Confirm', name:item.name+'_confirm', key: item.name+'_confirm'};
-          let fieldRenderer;
-          this.props.fieldRenderer ? fieldRenderer = this.props.fieldRenderer : fieldRenderer = defaultFieldRender;
-
-          this.props.passwordRenderer ? 
-          itemRenderer = React.cloneElement(fieldRenderer, {key: item.name+'_container'}, [React.cloneElement(this.props.passwordRenderer, passwordChangeProps), React.cloneElement(this.props.passwordRenderer, passwordConfirmProps)]) : 
-          itemRenderer = React.cloneElement(fieldRenderer, {key: item.name+'_container'}, [React.cloneElement(<input type="password" />, passwordChangeProps), React.cloneElement(<input type="password" />, passwordConfirmProps)]);
-
-                  break;
+          itemRenderer = React.cloneElement(fieldRenderer, {key: item.name+'_container'}, [React.cloneElement(this.props.passwordRenderer, passwordChangeProps), React.cloneElement(this.props.passwordRenderer, passwordConfirmProps)]);
+          break;
         case 'submit':
           //RENDER DIRECTLY A BUTTON
           const buttonProps = {...defaultValues, value: item.label || '', onClick: () => this.handleFormSubmit(data)};
-          this.props.buttonRenderer ? 
-            itemRenderer = React.cloneElement(this.props.buttonRenderer, buttonProps) : 
-            itemRenderer = React.cloneElement(<input type="submit" />, buttonProps);
+          itemRenderer = React.cloneElement(this.props.buttonRenderer, buttonProps);
         break;
         default: return null;
       }
       //RETURN A DEFAULT FIELD CONTAINER WITH A COMPONENT CONTENT RENDERER
-      return this.props.fieldRenderer ? React.cloneElement(this.props.fieldRenderer, {key: item.name}, [itemRenderer, validatorRenderer]) : React.cloneElement(defaultFieldRender, {key: item.name}, [itemRenderer, validatorRenderer]);
+      return React.cloneElement(this.props.fieldRenderer, {key: item.name}, [itemRenderer, validatorRenderer]);
     })
   }
 
@@ -111,7 +95,22 @@ class Form extends PureComponent({
 Form.propTypes = {
   fields: PropTypes.array,
   validatorTypes: PropTypes.object,
-  onSubmit: PropTypes.func
+  onSubmit: PropTypes.func,
+  containerRenderer: PropTypes.element,
+  fieldRenderer: PropTypes.element,
+  passwordRenderer: PropTypes.element,
+  textInputRenderer: PropTypes.element,
+  buttonRenderer: PropTypes.element,
+  submitRenderer: PropTypes.element
 }
+
+Form.defaultProps = {
+  containerRenderer: <div />,
+  fieldRenderer: <section />,
+  passwordRenderer: <input type="password" />,
+  textInputRenderer: <input type="text" />,
+  buttonRenderer: <input type="button" />,
+  submitRenderer: <input type="submit" />
+};
 
 export default Form;
