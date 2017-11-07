@@ -6,19 +6,14 @@ import { Attire, validate } from 'react-attire'
 
 const validateMyForm = validate({ email: v => v && v.length > 3 });
 
-export default class Form extends PureComponent {
-  static propTypes = {
-    fields: PropTypes.array,
-    validatorTypes: PropTypes.object,
-    onSubmit: PropTypes.func
-  }
+class Form extends PureComponent {
   constructor(props) {
     super(props);
 
     this.validator = new FormToolsValidator();
   }
 
-  handleFormSubmit = (data) => {
+  handleFormSubmit(data) {
 
     validateMyForm(data)
     .then(() => {
@@ -105,4 +100,10 @@ export default class Form extends PureComponent {
   }
 }
 
-  
+Form.propTypes = {
+  fields: PropTypes.array,
+  validatorTypes: PropTypes.object,
+  onSubmit: PropTypes.func
+}
+
+export default Form;

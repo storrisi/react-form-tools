@@ -2,9 +2,10 @@
   "name": "react-form-renderer",
   "version": "0.1.1",
   "description": "A simple React and React-Native form builder",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "NODE_ENV=production webpack -p --progress --colors",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,18 @@
   },
   "homepage": "https://github.com/storrisi/react-form-tools#readme",
   "dependencies": {
-    "react-attire": "^0.1.2"
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "jsdom": "^11.3.0",
+    "react": "^16.0.0",
+    "react-attire": "^0.1.2",
+    "react-dom": "^16.0.0",
+    "webpack": "^3.8.1"
+  },
+  "devDependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.26.0"
   }
 }
