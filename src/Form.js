@@ -33,8 +33,10 @@ class Form extends PureComponent {
         label: item.label || '',
         className: item.className || ''
       }
-      
-      return React.cloneElement(this.props.containerRenderer, {...defaultValues}, this.renderFields(item.fields, data, onChange));
+      let containerRenderer;
+      if (this.props.containerRenderer) containerRenderer = this.props.containerRenderer;
+      containerRenderer = <div />;
+      return React.cloneElement(containerRenderer, {...defaultValues}, this.renderFields(item.fields, data, onChange));
     });
   }
 
@@ -74,7 +76,7 @@ class Form extends PureComponent {
           const passwordChangeProps = {...defaultValues};
           const passwordConfirmProps = {...defaultValues, name:item.name+'_confirm', key: item.name+'_confirm'};
           this.props.passwordRenderer ? 
-            itemRenderer = React.cloneElement(this.props.fieldRenderer, {key: item.name}, [React.cloneElement(this.props.passwordChangeProps, passwordProps, React.cloneElement(this.props.passwordChangeProps, passwordProps))]) : 
+            itemRenderer = React.cloneElement(this.props.fieldRenderer, {key: item.name}, [React.cloneElement(this.props.passwordRenderer, passwordChangeProps, React.cloneElement(this.props.passwordRenderer, passwordConfirmProps))]) : 
             itemRenderer = React.cloneElement(this.props.fieldRenderer, {key: item.name}, [React.cloneElement(<input type="password" />, passwordChangeProps), React.cloneElement(<input type="password" />, passwordConfirmProps)]);
         break;
         case 'submit':
