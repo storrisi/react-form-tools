@@ -69,7 +69,7 @@ class Form extends PureComponent {
         case 'passwordChange':
           const passwordChangeProps = {...defaultValues};
           const passwordConfirmProps = {...defaultValues, placeholder:'Password Confirm', name:item.name+'_confirm', key: item.name+'_confirm'};
-          itemRenderer = React.cloneElement(fieldRenderer, {key: item.name+'_container'}, [React.cloneElement(this.props.passwordRenderer, passwordChangeProps), React.cloneElement(this.props.passwordRenderer, passwordConfirmProps)]);
+          itemRenderer = React.cloneElement(this.props.fieldRenderer, {key: item.name+'_container'}, [React.cloneElement(this.props.passwordRenderer, passwordChangeProps), React.cloneElement(this.props.passwordRenderer, passwordConfirmProps)]);
           break;
         case 'submit':
           //RENDER DIRECTLY A BUTTON
