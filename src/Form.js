@@ -6,7 +6,9 @@ import { Attire, validate } from 'react-attire'
 
 const validateMyForm = validate({ email: v => v && v.length > 3 });
 
-class Form extends PureComponent {
+class Form extends PureComponent({
+  defaultFieldRender: <section />
+}) {
   constructor(props) {
     super(props);
 
@@ -75,10 +77,14 @@ class Form extends PureComponent {
         case 'passwordChange':
           const passwordChangeProps = {...defaultValues};
           const passwordConfirmProps = {...defaultValues, placeholder:'Password Confirm', name:item.name+'_confirm', key: item.name+'_confirm'};
+          let fieldRenderer;
+          this.props.fieldRenderer ? fieldRenderer = this.props.fieldRenderer : fieldRenderer = defaultFieldRender;
+
           this.props.passwordRenderer ? 
-            itemRenderer = React.cloneElement(this.props.fieldRenderer, {key: item.name+'_container'}, [React.cloneElement(this.props.passwordRenderer, passwordChangeProps), React.cloneElement(this.props.passwordRenderer, passwordConfirmProps)]) : 
-            itemRenderer = React.cloneElement(this.props.fieldRenderer, {key: item.name+'_container'}, [React.cloneElement(<input type="password" />, passwordChangeProps), React.cloneElement(<input type="password" />, passwordConfirmProps)]);
-        break;
+          itemRenderer = React.cloneElement(fieldRenderer, {key: item.name+'_container'}, [React.cloneElement(this.props.passwordRenderer, passwordChangeProps), React.cloneElement(this.props.passwordRenderer, passwordConfirmProps)]) : 
+          itemRenderer = React.cloneElement(fieldRenderer, {key: item.name+'_container'}, [React.cloneElement(<input type="password" />, passwordChangeProps), React.cloneElement(<input type="password" />, passwordConfirmProps)]);
+
+                  break;
         case 'submit':
           //RENDER DIRECTLY A BUTTON
           const buttonProps = {...defaultValues, value: item.label || '', onClick: () => this.handleFormSubmit(data)};
@@ -89,7 +95,7 @@ class Form extends PureComponent {
         default: return null;
       }
       //RETURN A DEFAULT FIELD CONTAINER WITH A COMPONENT CONTENT RENDERER
-      return this.props.fieldRenderer ? React.cloneElement(this.props.fieldRenderer, {key: item.name}, [itemRenderer, validatorRenderer]) : React.cloneElement(<section />, {key: item.name}, [itemRenderer, validatorRenderer]);
+      return this.props.fieldRenderer ? React.cloneElement(this.props.fieldRenderer, {key: item.name}, [itemRenderer, validatorRenderer]) : React.cloneElement(defaultFieldRender, {key: item.name}, [itemRenderer, validatorRenderer]);
     })
   }
 
