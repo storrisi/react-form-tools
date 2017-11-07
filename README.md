@@ -83,6 +83,7 @@ npm install react-form-renderer --save
 ```
 
 #Item Renderers
+
 You can define a custom renderer for each single component, instead of using the default renderers.
 
 Here is the list of the customizable components:
@@ -92,6 +93,7 @@ Here is the list of the customizable components:
 |textInputRenderer |              | Used for rendering simple Text Fields                    |
 |passwordRenderer  |              | Used for rendering a Password Field.                     |
 |buttonRenderer    |              | Used for rendering a simple Button                       |
+|submitRenderer    |              | Used for rendering the Submit Button of the Form         |
 |containerRenderer |              | This renderer is used for styling purposes. If you need to put two or more fields on the same row, you can wrap into the same Container Renderer and give it the appropriate style or classname                       |
 |fieldRenderer     |              | As for the Container Renderer, specially if you have to show a field and a validator string togheter, with this renderer you can apply your own style.                |
 |validatorRenderer |              | Used for rendering the validator error message           |

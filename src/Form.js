@@ -27,12 +27,8 @@ class Form extends PureComponent {
 
   renderContainers(data, onChange) {
     return this.props.fields.map((item) =>{
-      let defaultValues = {
-        key: item.name,
-        style: item.style || {},
-        label: item.label || '',
-        className: item.className || ''
-      }
+      let defaultValues = item;
+      defaultValues.key = item.name;
 
       return React.cloneElement(this.props.containerRenderer, {...defaultValues}, this.renderFields(item.fields, data, onChange));
     });
@@ -43,15 +39,8 @@ class Form extends PureComponent {
     let itemRenderer, validatorRenderer = null;
 
     return fields.map((item) =>{
-      let defaultValues = {
-        key: item.name,
-        name: item.name,
-        style: item.style || {},
-        placeholder: item.placeholder || '',
-        label: item.label || '',
-        className: item.className || '',
-        onChange: onChange
-      }
+      let defaultValues = item;
+      defaultValues.key = item.name;
       
       itemRenderer = null;
       validatorRenderer = this.validator.message(item.name, data[item.name], this.props.validatorTypes[item.name], data);
