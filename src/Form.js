@@ -31,8 +31,6 @@ class Form extends PureComponent {
   }
 
   renderContainers(data, onChange) {
-      console.log(data);
-      this.data = data;
     return this.props.fields.map((item) =>{
       let defaultValues = item;
       defaultValues.key = item.name;
@@ -42,7 +40,8 @@ class Form extends PureComponent {
   }
 
   renderFields(fields, data, onChange) {  
-    
+    console.log(data);
+    this.data = data;
     let itemRenderer, validatorRenderer = null;
 
     return fields.map((item) =>{
