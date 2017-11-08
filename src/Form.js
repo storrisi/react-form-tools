@@ -7,6 +7,11 @@ import { Attire, validate } from 'react-attire'
 const validateMyForm = validate({ email: v => v && v.length > 3 });
 
 class Form extends PureComponent {
+
+    static testAction() {
+        console.log('ciao');
+    }
+
   constructor(props) {
     super(props);
 
