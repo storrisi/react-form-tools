@@ -103,5 +103,6 @@ Form.defaultProps = {
 };
 
 export function submitAction() {
+  console.log("=====");
   console.log(this.refs.formData.data);
 }
