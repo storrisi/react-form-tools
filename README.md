@@ -98,7 +98,6 @@ Here is the list of the customizable components:
 |fieldRenderer     |              | As for the Container Renderer, specially if you have to show a field and a validator string togheter, with this renderer you can apply your own style.                |
 |validatorRenderer |              | Used for rendering the validator error message           |
 
-
 ## Validation Rules
 This is the list of all the rules you can validate form inputs against. 
 When using multiple rules, separate them with a pipe `|`. 
@@ -129,9 +128,20 @@ Examples: `'required|min:20|max:120'` and `'required|in:stu,stuart,stuyam'`
 |url           |              | Must be a valid url.                                     |
 
 ## Custom Rules
+
 You can write custom rules that you can use the validate. A rule is comprised of 3 parts; the name, the message, and the rule itself.
 
 
 ## Custom Error Messages
+
 The fifth parameter is an object. The keys correspond to the rule names.
 If you use the key 'default' then that will be used for all errors that do not have custom errors set.
+
+## Buttons out of the box
+
+Maybe you need to put your own buttons anywhere in your layout, so you don't really want to render a button inside the Form, just to access to the actions.
+
+We exposed simple functions to achieve this, using `ref` param.
+
+The first thing you need to do is to put a property `ref = "formName"` in your form renderer.
+Then, you can call directly the submitAction() calling `this.refs.form.submitAction();`

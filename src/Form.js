@@ -14,16 +14,17 @@ class Form extends PureComponent {
       this.handleFormSubmit(this.refs.formAttire.state.data);
     }
   }
+
   handleFormSubmit(data) {
-    validateMyForm(data)
-    .then(() => {
-        console.log('All good!')
-        this.props.onSubmit(data);
-    })
-    .catch(validationStatus => {
-        console.error('Validation error', validationStatus)
-    })
+    if( this.validator.allValid() ){
+        this.props.onSubmit();
+    } else {
+        this.validator.showMessages();
+        // rerender to show messages for the first time
+        this.forceUpdate();
+    }
   }
+
   renderContainers(data, onChange) {
 
     return this.props.fields.map((item) =>{
