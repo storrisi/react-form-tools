@@ -74,7 +74,7 @@ class Form extends PureComponent {
 
   render() {
       return (
-        <Attire>
+        <Attire ref="formData">
             {(data, onChange) => this.renderContainers(data, onChange)}
         </Attire>
       )
@@ -103,3 +103,7 @@ Form.defaultProps = {
 };
 
 export default Form;
+
+export default function submitAction() {
+  console.log(this.refs.formData.data);
+}
