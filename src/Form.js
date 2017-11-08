@@ -15,6 +15,7 @@ class Form extends PureComponent {
     this.testAction = () => {
         console.log(this.refs.formAttire);
     }
+    this.data;
   }
 
   handleFormSubmit(data) {
@@ -30,6 +31,8 @@ class Form extends PureComponent {
   }
 
   renderContainers(data, onChange) {
+      console.log(data);
+      this.data = data;
     return this.props.fields.map((item) =>{
       let defaultValues = item;
       defaultValues.key = item.name;
