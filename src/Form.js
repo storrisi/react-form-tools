@@ -9,7 +9,7 @@ const validateMyForm = validate({ email: v => v && v.length > 3 });
 class Form extends PureComponent {
 
     static testAction() {
-        console.log('ciao');
+        console.log(this.state);
     }
 
   constructor(props) {
@@ -31,6 +31,9 @@ class Form extends PureComponent {
   }
 
   renderContainers(data, onChange) {
+    this.setState({
+        data
+    });
     return this.props.fields.map((item) =>{
       let defaultValues = item;
       defaultValues.key = item.name;
