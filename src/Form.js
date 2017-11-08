@@ -14,6 +14,7 @@ class Form extends PureComponent {
     this.validator = new FormToolsValidator();
     this.testAction = () => {
         console.log(this.state);
+        console.log(this.refs.formAttire.data);
     }
   }
 
@@ -81,7 +82,7 @@ class Form extends PureComponent {
 
   render() {
       return (
-        <Attire>
+        <Attire ref='formAttire'>
             {(data, onChange) => this.renderContainers(data, onChange)}
         </Attire>
       )
