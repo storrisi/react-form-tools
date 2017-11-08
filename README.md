@@ -15,34 +15,27 @@ npm install react-form-renderer --save
 <Form
   textInputRenderer = {<input type="text" />}
   buttonRenderer = {<input type="submit" />}
-  fieldRenderer = {<div style={} />}
-  containerRenderer = {<div style={} />}
-  validatorRenderer = {<div style={} />}
+  fieldRenderer = {<div />}
+  containerRenderer = {<div />}
+  validatorRenderer = {<div />}
   fields={[
     {
       type: 'container', //Required
       name: 'container-1', //Optional
-      style: {}, //Optional
-      className: '', //Optional
       fields: [
         {
             type: 'container', //Required
             name: 'container-1', //Optional
-            style: {}, //Optional
-            className: '', //Optional
             fields: [
                 {
                     type: 'text', //Required
                     name: 'username', //Required
                     placeholder:'Username', //Optional
-                    style: {}, //Optional
-                    className: '' //Optional
                 },
                 {
                     type: 'password', //Required
                     name: 'password', //Required
                     placeholder:'Password', //Optional
-                    style: {} //Optional
                 }
             ]
         }
@@ -51,7 +44,6 @@ npm install react-form-renderer --save
     {
       type: 'container', //Required
       name: 'container-2', //Required
-      style: {}, //Optional
       className: '', //Optional
       fields: [
         {
@@ -82,9 +74,20 @@ npm install react-form-renderer --save
 />
 ```
 
-#Item Renderers
+## Class Properties
 
-You can define a custom renderer for each single component, instead of using the default renderers.
+To initialize a Form Renderer component, you need to define these properties
+
+| Property        | Options      | Description                                              |
+|-----------------|--------------|----------------------------------------------------------|
+|fields           | required     | An Array of Json Object containing the structure of your form. Each element of the Array is a different container (like rows), with the defined fields as childs.                    |
+|validatorTypes   | optional     | A Json Object describing the type of validation for each field. See description above.|
+|validatorMessages| optional     | A Json Object containing the matching custom message for each validation error.|
+|onSubmit         | required     | The function called to submit the form into your specifical process.                   |
+
+##Item Renderers
+
+You can also define a custom renderer for each single component, instead of using the default renderers.
 
 Here is the list of the customizable components:
 
@@ -94,9 +97,22 @@ Here is the list of the customizable components:
 |passwordRenderer  |              | Used for rendering a Password Field.                     |
 |buttonRenderer    |              | Used for rendering a simple Button                       |
 |submitRenderer    |              | Used for rendering the Submit Button of the Form         |
-|containerRenderer |              | This renderer is used for styling purposes. If you need to put two or more fields on the same row, you can wrap into the same Container Renderer and give it the appropriate style or classname                       |
+|containerRenderer |              | This renderer is used for styling purposes. If you need to put two or more fields on the same row, you can wrap into the same Container Renderer and give it the appropriate style or classname                 |
 |fieldRenderer     |              | As for the Container Renderer, specially if you have to show a field and a validator string togheter, with this renderer you can apply your own style.                |
 |validatorRenderer |              | Used for rendering the validator error message           |
+
+Each renderer can be defined with your own properties, they will added to the item renderer as well.
+
+## Field Properties
+
+Eeach field comes up with these properties
+| Property        | Options      | Description                                              |
+|-----------------|---------------|----------------------------------------------------------|
+|type             |      required      | Used for rendering simple Text Fields                    |
+|name             |      required      | Used for rendering simple Text Fields                    |
+|placeholder      |      optional      | Used for rendering simple Text Fields                    |
+|style            |      optional      | Used for rendering simple Text Fields                    |
+|className        |      optional      | Used for rendering simple Text Fields                    |
 
 ## Validation Rules
 This is the list of all the rules you can validate form inputs against. 
