@@ -15,7 +15,7 @@ class Form extends PureComponent {
 
   handleFormSubmit(data) {
     if( this.validator.allValid() ){
-        this.props.onSubmit();
+        this.props.onSubmit( this.validator.cleanData(data) );
     } else {
         this.validator.showMessages();
         // rerender to show messages for the first time
@@ -35,7 +35,7 @@ class Form extends PureComponent {
   }
   renderFields(fields, data, onChange) {  
 
-    let itemRenderer, validatorRenderer = null;
+    let itemRenderer, validatorRenderer = null, validatorRendererConfirm = null;
     
     return fields.map((item) =>{
       let defaultValues = item;
@@ -50,15 +50,26 @@ class Form extends PureComponent {
           const textProps = {...defaultValues};
           itemRenderer = React.cloneElement(this.props.textInputRenderer, textProps);
         break;
+        
         case 'password':
           const passwordProps = {...defaultValues};
           itemRenderer = React.cloneElement(this.props.passwordRenderer, passwordProps);
         break;
         case 'passwordChange':
           const passwordChangeProps = {...defaultValues};
-          const passwordConfirmProps = {...defaultValues, placeholder:'Password Confirm', name:item.name+'_confirm', key: item.name+'_confirm'};
+          
+          let field_confirm = item.name+'_confirm';
+          const passwordConfirmProps = {...defaultValues, placeholder:'Password Confirm', name:field_confirm, key: field_confirm};
+          validatorRendererConfirm = this.validator.message(field_confirm, data[field_confirm], this.props.validatorTypes[field_confirm], data);
+          
           itemRenderer = React.cloneElement(this.props.fieldRenderer, {key: item.name+'_container'}, [React.cloneElement(this.props.passwordRenderer, passwordChangeProps), React.cloneElement(this.props.passwordRenderer, passwordConfirmProps)]);
-          break;
+        break;
+        
+        case 'checkbox':
+          const checkboxProps = {...defaultValues};
+          itemRenderer = React.cloneElement(this.props.checkBoxRenderer, checkboxProps);
+        break;
+        
         case 'submit':
           //RENDER DIRECTLY A BUTTON
           const buttonProps = {...defaultValues, value: item.label || '', onClick: () => this.handleFormSubmit(data)};
@@ -67,7 +78,7 @@ class Form extends PureComponent {
         default: return null;
       }
       //RETURN A DEFAULT FIELD CONTAINER WITH A COMPONENT CONTENT RENDERER
-      return React.cloneElement(this.props.fieldRenderer, {key: item.name}, [itemRenderer, validatorRenderer]);
+      return React.cloneElement(this.props.fieldRenderer, {key: item.name}, [itemRenderer, validatorRenderer, validatorRendererConfirm]);
     })
   }
   render() {
@@ -87,7 +98,8 @@ Form.propTypes = {
   passwordRenderer: PropTypes.element,
   textInputRenderer: PropTypes.element,
   buttonRenderer: PropTypes.element,
-  submitRenderer: PropTypes.element
+  submitRenderer: PropTypes.element,
+  checkBoxRenderer: PropTypes.element
 }
 Form.defaultProps = {
   containerRenderer: <div />,
@@ -95,6 +107,7 @@ Form.defaultProps = {
   passwordRenderer: <input type="password" />,
   textInputRenderer: <input type="text" />,
   buttonRenderer: <input type="button" />,
-  submitRenderer: <input type="submit" />
+  submitRenderer: <input type="submit" />,
+  checkBoxRenderer: <input type="checkbox" />
 };
 export { Form }

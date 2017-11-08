@@ -29,16 +29,18 @@ export default class FormToolsValidator{
         url            : {message: 'The :attribute must be a url.',                                 rule: (val) => this._testRegex(val,/^(https?|ftp):\/\/(-\.)?([^\s/?#-]+\.?)+(\/[^\s]*)?$/i) },
         password       : {message: 'The :attribute must have minimum 8 characters and at least one letter and one number.', rule: (val) => this._testRegex(val,/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/) },
         
-        confirmation   : {message: 'The :attribute_confirm must be equal to :attribute.',           rule: (val, field, data) => {
-            if(val && data[field+'_confirm']) {
-              var field_origin = field;
-              var field_confirm = field+'_confirm';
-              if(data[field_origin] !== data[field_confirm]) {
-                return false;
-              } else {
-                return true;
+        confirmation   : {message: 'The :attribute_confirm must be equal to :attribute.',           rule: (val, field, data, fields) => {
+          var field_origin = field;
+          var field_confirm = field+'_confirm';
+            if(fields[field_confirm]) {
+              if(val || data[field_confirm]) {
+                if(data[field_origin] !== data[field_confirm]) {
+                  return false;
+                } else {
+                  return true;
+                }
               }
-            }
+            }    
             return true;
         }},
         ...customRules,
@@ -78,6 +80,17 @@ export default class FormToolsValidator{
         return this._reactErrorElement(message, customClass);
       }
     }
+    
+    cleanData(data) {
+      var clean_data = {};
+      if(this.fields) {
+        for(var key in this.fields) {
+          var value = data[key];
+          clean_data[ key ] = value;
+        }
+      }
+      return clean_data;
+    }
   
     message(field, value, testString, data, renderer, customClass, customErrors = {}){
       this.errorMessages[field] = null;
@@ -88,22 +101,6 @@ export default class FormToolsValidator{
       var tests = testString.split('|');
       var rule, options, message;
       if (renderer) this.renderer = renderer;      
-
-      //CONFIRMATION
-      if(this.rules['confirmation'].rule(value, field, data) === false){
-        var field_origin = field;
-        var field_confirm = field+'_confirm';
-        message = this.rules['confirmation'].message;
-        message = message.replace(':attribute_confirm', field_confirm.replace(/_/g, ' '));
-        message = message.replace(':attribute', field_origin.replace(/_/g, ' '));    
-        this.errorMessages[field_origin] = message;
-        if(this.rules['confirmation'].hasOwnProperty('messageReplace')){
-          return this._reactErrorElement(this.rules[rule].messageReplace(message, options));
-        } else {
-          return this._reactErrorElement(message, customClass);
-        }
-      }
-      //CONFIRMATION
 
       for(var i = 0; i < tests.length; i++){
         // if the validation does not pass the test
@@ -127,6 +124,22 @@ export default class FormToolsValidator{
           }
         }
       }
+      
+      //CONFIRMATION
+      if(this.rules['confirmation'].rule(value, field, data, this.fields) === false){
+        var field_origin = field;
+        var field_confirm = field+'_confirm';
+        message = this.rules['confirmation'].message;
+        message = message.replace(':attribute_confirm', field_confirm.replace(/_/g, ' '));
+        message = message.replace(':attribute', field_origin.replace(/_/g, ' '));    
+        this.errorMessages[field_confirm] = message;
+        if(this.rules['confirmation'].hasOwnProperty('messageReplace')){
+          return this._reactErrorElement(this.rules['confirmation'].messageReplace(message, options));
+        } else {
+          return this._reactErrorElement(message, customClass);
+        }
+      }
+      //CONFIRMATION
     }
     // Private Methods
     _getRule(type){
