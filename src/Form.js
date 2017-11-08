@@ -13,8 +13,7 @@ class Form extends PureComponent {
 
     this.validator = new FormToolsValidator();
     this.testAction = () => {
-        console.log(this.state);
-        console.log(this.refs.formAttire.data);
+        console.log(this.refs.formAttire);
     }
   }
 
@@ -31,9 +30,6 @@ class Form extends PureComponent {
   }
 
   renderContainers(data, onChange) {
-    this.setState({
-        data: data
-    });
     return this.props.fields.map((item) =>{
       let defaultValues = item;
       defaultValues.key = item.name;
@@ -82,7 +78,7 @@ class Form extends PureComponent {
 
   render() {
       return (
-        <Attire ref='formAttire'>
+        <Attire ref="formAttire">
             {(data, onChange) => this.renderContainers(data, onChange)}
         </Attire>
       )
