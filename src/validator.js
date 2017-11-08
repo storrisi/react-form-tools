@@ -26,7 +26,7 @@ export default class FormToolsValidator{
         numeric        : {message: 'The :attribute must be a number.',                              rule: (val) => this._testRegex(val,/^\d+.?\d*$/)},
         phone          : {message: 'The :attribute must be a valid phone number.',                  rule: (val) => this._testRegex(val,/(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)/)},
         required       : {message: 'The :attribute field is required.',                             rule: (val) => this._testRegex(val,/.+/) },
-        url            : {message: 'The :attribute must be a url.',                                 rule: (val) => this._testRegex(val,/^(https?|ftp):\/\/(-\.)?([^\s/?\.#-]+\.?)+(\/[^\s]*)?$/i) },
+        url            : {message: 'The :attribute must be a url.',                                 rule: (val) => this._testRegex(val,/^(https?|ftp):\/\/(-\.)?([^\s/?#-]+\.?)+(\/[^\s]*)?$/i) },
         confirmation   : {message: 'The :attribute_confirm must be equal to :attribute.'},
         ...customRules,
       };
@@ -81,7 +81,7 @@ export default class FormToolsValidator{
         var field_origin = field;
         var field_confirm = field+'_confirm';
         if(data[field_origin] !== data[field_confirm]) {
-          var message = this.rules['confirmation'].message;
+          message = this.rules['confirmation'].message;
           message = message.replace(':attribute_confirm', field_confirm.replace(/_/g, ' '));
           message = message.replace(':attribute', field_origin.replace(/_/g, ' '));    
           this.errorMessages[field_origin] = message;

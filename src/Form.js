@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import FormToolsValidator from './validator';
-import { Attire, validate } from 'react-attire'
-
-const validateMyForm = validate({ email: v => v && v.length > 3 });
+import { Attire } from 'react-attire';
 
 class Form extends PureComponent {
   constructor(props) {
