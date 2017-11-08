@@ -12,10 +12,6 @@ class Form extends PureComponent {
     super(props);
 
     this.validator = new FormToolsValidator();
-    this.testAction = () => {
-        console.log(this.refs.formAttire);
-    }
-    this.data;
   }
 
   handleFormSubmit(data) {
@@ -31,6 +27,7 @@ class Form extends PureComponent {
   }
 
   renderContainers(data, onChange) {
+      console.log('renderContainers');
     return this.props.fields.map((item) =>{
       let defaultValues = item;
       defaultValues.key = item.name;
@@ -40,8 +37,8 @@ class Form extends PureComponent {
   }
 
   renderFields(fields, data, onChange) {  
-    console.log(data);
-    this.data = data;
+    console.log('renderFields', data);
+    
     let itemRenderer, validatorRenderer = null;
 
     return fields.map((item) =>{
@@ -80,7 +77,7 @@ class Form extends PureComponent {
 
   render() {
       return (
-        <Attire ref="formAttire">
+        <Attire>
             {(data, onChange) => this.renderContainers(data, onChange)}
         </Attire>
       )
