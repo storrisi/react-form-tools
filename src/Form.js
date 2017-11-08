@@ -6,7 +6,7 @@ import { Attire, validate } from 'react-attire'
 
 const validateMyForm = validate({ email: v => v && v.length > 3 });
 
-class Form extends PureComponent {
+export class Form extends PureComponent {
   constructor(props) {
     super(props);
 
@@ -101,8 +101,6 @@ Form.defaultProps = {
   buttonRenderer: <input type="button" />,
   submitRenderer: <input type="submit" />
 };
-
-export default Form;
 
 export function submitAction() {
   console.log(this.refs.formData.data);
