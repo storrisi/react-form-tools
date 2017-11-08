@@ -78,7 +78,7 @@ class Form extends PureComponent {
 
   render() {
       return (
-        <Attire>
+        <Attire ref='formAttire'>
             {(data, onChange) => this.renderContainers(data, onChange)}
         </Attire>
       )
