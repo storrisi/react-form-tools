@@ -9,8 +9,9 @@ class Form extends PureComponent {
   constructor(props) {
     super(props);
     this.validator = new FormToolsValidator();
-    this.getData = () => {
-        return this.refs.formAttire.state.data;
+    
+    this.submitAction = () => {
+      this.handleFormSubmit(this.refs.formAttire.state.data);
     }
   }
   handleFormSubmit(data) {
