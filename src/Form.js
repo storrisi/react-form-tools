@@ -1,21 +1,19 @@
 import PropTypes from 'prop-types';
 import React, {PureComponent} from 'react';
 import FormToolsValidator from './validator';
-
 import { Attire, validate } from 'react-attire'
 
 const validateMyForm = validate({ email: v => v && v.length > 3 });
 
 class Form extends PureComponent {
-
   constructor(props) {
     super(props);
-
     this.validator = new FormToolsValidator();
+    this.getData = () => {
+        return this.refs.formAttire.state.data;
+    }
   }
-
   handleFormSubmit(data) {
-
     validateMyForm(data)
     .then(() => {
         console.log('All good!')
@@ -25,33 +23,27 @@ class Form extends PureComponent {
         console.error('Validation error', validationStatus)
     })
   }
-
   renderContainers(data, onChange) {
-      console.log('renderContainers');
+
     return this.props.fields.map((item) =>{
       let defaultValues = item;
       defaultValues.key = item.name;
+      defaultValues.onChange = onChange;
 
       return React.cloneElement(this.props.containerRenderer, {...defaultValues}, this.renderFields(item.fields, data, onChange));
     });
   }
-
   renderFields(fields, data, onChange) {  
-    console.log('renderFields', data);
 
     let itemRenderer, validatorRenderer = null;
-
+    
     return fields.map((item) =>{
-
-        console.log('renderFields', item);
-
       let defaultValues = item;
       defaultValues.key = item.name;
       defaultValues.onChange = onChange;
       
       itemRenderer = null;
       validatorRenderer = this.validator.message(item.name, data[item.name], this.props.validatorTypes[item.name], data);
-
       switch(item.type) {
         case 'email':
         case 'text':
@@ -78,16 +70,14 @@ class Form extends PureComponent {
       return React.cloneElement(this.props.fieldRenderer, {key: item.name}, [itemRenderer, validatorRenderer]);
     })
   }
-
   render() {
       return (
-        <Attire ref='formAttire'>
+        <Attire ref="formAttire">
             {(data, onChange) => this.renderContainers(data, onChange)}
         </Attire>
       )
   }
 }
-
 Form.propTypes = {
   fields: PropTypes.array,
   validatorTypes: PropTypes.object,
@@ -99,7 +89,6 @@ Form.propTypes = {
   buttonRenderer: PropTypes.element,
   submitRenderer: PropTypes.element
 }
-
 Form.defaultProps = {
   containerRenderer: <div />,
   fieldRenderer: <section />,
@@ -108,5 +97,4 @@ Form.defaultProps = {
   buttonRenderer: <input type="button" />,
   submitRenderer: <input type="submit" />
 };
-
 export { Form }
