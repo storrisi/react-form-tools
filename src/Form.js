@@ -31,7 +31,7 @@ class Form extends PureComponent {
 
   renderContainers(data, onChange) {
     this.setState({
-        data
+        data: data
     });
     return this.props.fields.map((item) =>{
       let defaultValues = item;
