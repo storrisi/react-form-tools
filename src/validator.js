@@ -27,7 +27,20 @@ export default class FormToolsValidator{
         phone          : {message: 'The :attribute must be a valid phone number.',                  rule: (val) => this._testRegex(val,/(\+?\d{0,4})?\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{3}\)?)\s?-?\s?(\(?\d{4}\)?)/)},
         required       : {message: 'The :attribute field is required.',                             rule: (val) => this._testRegex(val,/.+/) },
         url            : {message: 'The :attribute must be a url.',                                 rule: (val) => this._testRegex(val,/^(https?|ftp):\/\/(-\.)?([^\s/?#-]+\.?)+(\/[^\s]*)?$/i) },
-        confirmation   : {message: 'The :attribute_confirm must be equal to :attribute.'},
+        password       : {message: 'The :attribute must have minimum 8 characters and at least one letter and one number.', rule: (val) => this._testRegex(val,/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/) },
+        
+        confirmation   : {message: 'The :attribute_confirm must be equal to :attribute.',           rule: (val, field, data) => {
+            if(val && data[field+'_confirm']) {
+              var field_origin = field;
+              var field_confirm = field+'_confirm';
+              if(data[field_origin] !== data[field_confirm]) {
+                return false;
+              } else {
+                return true;
+              }
+            }
+            return true;
+        }},
         ...customRules,
       };
     }
@@ -77,19 +90,17 @@ export default class FormToolsValidator{
       if (renderer) this.renderer = renderer;      
 
       //CONFIRMATION
-      if(value && data[field+'_confirm']) {
+      if(this.rules['confirmation'].rule(value, field, data) === false){
         var field_origin = field;
         var field_confirm = field+'_confirm';
-        if(data[field_origin] !== data[field_confirm]) {
-          message = this.rules['confirmation'].message;
-          message = message.replace(':attribute_confirm', field_confirm.replace(/_/g, ' '));
-          message = message.replace(':attribute', field_origin.replace(/_/g, ' '));    
-          this.errorMessages[field_origin] = message;
-          if(this.rules['confirmation'].hasOwnProperty('messageReplace')){
-            return this._reactErrorElement(this.rules[rule].messageReplace(message, options));
-          } else {
-            return this._reactErrorElement(message, customClass);
-          }
+        message = this.rules['confirmation'].message;
+        message = message.replace(':attribute_confirm', field_confirm.replace(/_/g, ' '));
+        message = message.replace(':attribute', field_origin.replace(/_/g, ' '));    
+        this.errorMessages[field_origin] = message;
+        if(this.rules['confirmation'].hasOwnProperty('messageReplace')){
+          return this._reactErrorElement(this.rules[rule].messageReplace(message, options));
+        } else {
+          return this._reactErrorElement(message, customClass);
         }
       }
       //CONFIRMATION
