@@ -104,6 +104,6 @@ Form.defaultProps = {
 
 export default Form;
 
-export default function submitAction() {
+export function submitAction() {
   console.log(this.refs.formData.data);
 }
