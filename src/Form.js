@@ -38,12 +38,13 @@ class Form extends PureComponent {
 
   renderFields(fields, data, onChange) {  
     console.log('renderFields', data);
-    
+
     let itemRenderer, validatorRenderer = null;
 
     return fields.map((item) =>{
       let defaultValues = item;
       defaultValues.key = item.name;
+      defaultValues.onChange = onChange;
       
       itemRenderer = null;
       validatorRenderer = this.validator.message(item.name, data[item.name], this.props.validatorTypes[item.name], data);
