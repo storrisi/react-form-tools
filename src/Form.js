@@ -131,7 +131,12 @@ class Form extends Component {
           const buttonProps = {...defaultValues, value: item.label || '', onClick: () => this.handleFormSubmit(data)};
           itemRenderer = React.cloneElement(this.props.buttonRenderer, buttonProps);
         break;
-        default: return null;
+        default: 
+          if (item.renderer) {
+            const rendererProps = {...defaultValues};
+            itemRenderer = React.cloneElement(item.renderer, rendererProps);
+          } else return null;
+        break;
       }
       //RETURN A DEFAULT FIELD CONTAINER WITH A COMPONENT CONTENT RENDERER
       return React.cloneElement(this.props.fieldRenderer, {key: item.name}, [itemRenderer, validatorRenderer, validatorRendererConfirm]);
@@ -165,5 +170,4 @@ Form.defaultProps = {
   submitRenderer: <input type="submit" />,
   checkBoxRenderer: <input type="checkbox" />
 };
-
 export { Form }
